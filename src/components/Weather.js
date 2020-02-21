@@ -4,28 +4,37 @@ import axios from 'axios';
 class Weather extends Component {
 
     state = {
-        weather: []
+        weather: {
+            location: {},
+            current: {
+                temp_f: 0
+            }
+        }
     }
 
     componentDidMount = () => {
-        this.getWeather();
+        this.getCurrentWeather();
     }
 
-    getWeather = () => {
-        axios.get('/weather').then(response => {
-            console.log('getting forecast', response.data);
-            // this.setState({
-            //     weather: response
-            // })
+    getCurrentWeather = () => {
+        axios.get('/weather/current').then(response => {
+            console.log('getting current forecast', response.data);
+            this.setState({
+                weather: {
+                    current: {
+                        temp_f: response.data.current.temp_f
+                    }
+                }
+            })
         }).catch(error => {
-            console.log('error getting weather', error);
+            console.log('error getting current weather', error);
         })
     }
 
     render() {
         return(
             <div>
-                {JSON.stringify(this.state.weather)}
+                {JSON.stringify(this.state.weather.current.temp_f)}
             </div>
         )
     }

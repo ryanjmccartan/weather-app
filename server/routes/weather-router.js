@@ -4,7 +4,7 @@ const axios = require('axios');
 
 require('dotenv').config();
 
-router.get('/', (req, res) => {
+router.get('/current', (req, res) => {
     let url = `http://api.weatherapi.com/v1/current.json?key=${process.env.API_KEY}&q=Minneapolis`
     axios({
         method: 'GET',
@@ -13,7 +13,20 @@ router.get('/', (req, res) => {
         console.log('getting current weather', response.data);
         res.send(response.data);
     }).catch( error => {
-        console.log("error with getting weather", error);
+        console.log("error with getting current weather", error);
+    })
+})
+
+router.get('/forecast', (req, res) => {
+    let url = `http://api.weatherapi.com/v1/forecast.json?key=${process.env.API_KEY}&q=Minneapolis&days=3`
+    axios({
+        method: 'GET',
+        url: url
+    }).then( (response) => {
+        console.log('getting weather forecast', response.data);
+        res.send(response.data);
+    }).catch( error => {
+        console.log("error with getting weather forecast", error);
     })
 })
 
