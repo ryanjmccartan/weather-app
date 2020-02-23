@@ -21,15 +21,17 @@ class Weather extends Component {
     }
 
     componentDidMount = () => {
-        this.getCurrentWeather();
+        // this.getCurrentWeather();
         this.getWeatherForecast();
     }
 
     getCurrentWeather = () => {
-        axios.get('/weather/current').then(response => {
+        let city = this.state.weather.location;
+        axios.get(`/weather/current/${city}`).then(response => {
             console.log('getting current weather', response.data);
             this.setState({
                 weather: {
+                    location: response.data.location.name,
                     current: {
                         temp_f: response.data.current.temp_f,
                         gust_mph: response.data.current.gust_mph
@@ -61,19 +63,35 @@ class Weather extends Component {
 
     
 
-    handleChange = (e, input) => {
+    handleChange = (e) => {
+        // console.log(e.target.value, input);
         this.setState({
-            ...this.state.weather.location, 
-            [input]: e.target.value
+            weather: {
+            ...this.state.weather, 
+            location: e.target.value
+            }
         })
-        console.log('location entered', this.state.weather.location);
+        // console.log('location entered', this.state.weather.location);
     }
+
+    // addUserInput = () => {
+    //     let city = {
+    //         property: this.state.weather.location
+    //     };
+    //     axios.post('/weather/current', city).then(response => {
+    //         console.log('user changed city', response);
+    //     }).catch(error => {
+    //         console.log('error posting user input', error);
+    //     })
+    //     console.log('in addUser', city);
+    // }
 
     render() {
         return(
             <div>
                 <h3>Current Temperature:</h3>
-                <input placeholder='enter city' value={this.state.weather.location} onChange={(e) => this.handleChange(e, 'location')}/>
+                <input placeholder='enter city' onChange={(e) => this.handleChange(e)}/>
+                <button onClick={this.getCurrentWeather}>Search city</button>
                 <img src={this.state.weather.condition.condition_icon} alt="weather_icon"/>
                 {JSON.stringify(this.state.weather.current.temp_f)}
                 <br/>
