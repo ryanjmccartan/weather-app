@@ -2,15 +2,22 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Weather App
 
-This is a straightforward weather app that allows the user to enter in the name of a city and receive both its current and three-day weather forecast. This app was made using this [Weather API](https://www.weatherapi.com/).
+This is a weather app that utilizes a weather API and allows a user to enter in the name of a city and receive both its current and three-day weather forecast.
 
 ## Built With
 ​
-[React.js]((https://reactjs.org/))
+* [Weather API](https://www.weatherapi.com/))
+* JavaScript
+* React.js
+* Node.js
+* Express
+
 
 for a full list of dependencies, please see the package.json file.
 
 ## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development purposes.
 
 ### Prerequisites
 ​
