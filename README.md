@@ -6,7 +6,7 @@ This is a weather app that utilizes a weather API and allows a user to enter in 
 
 ## Built With
 ​
-* [Weather API](https://www.weatherapi.com/)
+* [Weatherapi.com](https://www.weatherapi.com/)
 * JavaScript
 * React.js
 * Node.js
