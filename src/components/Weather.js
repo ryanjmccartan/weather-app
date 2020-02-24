@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import Forecast from './Forecast';
 
 class Weather extends Component {
 
@@ -13,20 +14,21 @@ class Weather extends Component {
             },
             condition: {
                 condition_icon: ''
-            },
-            forecast: {
-                forecast_day: []
             }
+        },
+        forecast: {
+            day_array: [],
+            astro_array: []
         }
     }
 
     componentDidMount = () => {
         // this.getCurrentWeather();
-        this.getWeatherForecast();
+        // this.getWeatherForecast();
     }
 
     getCurrentWeather = () => {
-        let city = this.state.weather.location;
+        const city = this.state.weather.location;
         axios.get(`/weather/current/${city}`).then(response => {
             console.log('getting current weather', response.data);
             this.setState({
@@ -47,15 +49,26 @@ class Weather extends Component {
     }
 
     getWeatherForecast = () => {
-        axios.get('/weather/forecast').then(response => {
+        const city = this.state.weather.location;
+        axios.get(`/weather/forecast/${city}`).then(response => {
             console.log('getting weather forecast', response.data);
-            // this.setState({
-            //     weather: {
-            //         current: {
-            //             temp_f: response.data.current.temp_f
-            //         }
-            //     }
-            // })
+            this.setState({
+                forecast: {
+                    day_array: [],
+                    astro_array: []
+                }
+            })
+            response.data.forEach(object => {
+                this.setState({
+                    forecast: {
+                        day_array: [...this.state.forecast.day_array, object.day],
+                        astro_array: [...this.state.forecast.astro_array, object.astro]
+                    }
+                })
+            });
+            this.getCurrentWeather();
+            console.log('in forecast state day', this.state.forecast.day_array)
+            console.log('in forecast state astro', this.state.forecast.astro_array)
         }).catch(error => {
             console.log('error getting weather forecast', error);
         })
@@ -90,13 +103,20 @@ class Weather extends Component {
         return(
             <div>
                 <h3>Current Temperature:</h3>
-                <input placeholder='enter city' onChange={(e) => this.handleChange(e)}/>
-                <button onClick={this.getCurrentWeather}>Search city</button>
+                <input placeholder='enter city name' onChange={(e) => this.handleChange(e)}/>
+                <button onClick={this.getWeatherForecast}>Check weather</button>
                 <img src={this.state.weather.condition.condition_icon} alt="weather_icon"/>
                 {JSON.stringify(this.state.weather.current.temp_f)}
+                {/* {this.state.forecast.forecast_day.forEach(day => {
+                    return <li>{day}</li>
+                }  */}
+                   
+                    {/* )} */}
                 <br/>
+                {/* {JSON.stringify(this.state.forecast.day_array)} */}
                 {/* {JSON.stringify(this.state.weather.current.gust_mph)} */}
                 <br/>
+                <Forecast forecast={this.state.forecast.day_array}/>
                 Powered by <a href="https://www.weatherapi.com/" title="Free Weather API">WeatherAPI.com</a>
             </div>
         )
