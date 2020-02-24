@@ -18,14 +18,15 @@ router.get('/current/:id', (req, res) => {
     })
 })
 
-router.get('/forecast', (req, res) => {
-    let url = `http://api.weatherapi.com/v1/forecast.json?key=${process.env.API_KEY}&q=Minneapolis&days=3`
+router.get('/forecast/:id', (req, res) => {
+    let city = req.params.id;
+    let url = `http://api.weatherapi.com/v1/forecast.json?key=${process.env.API_KEY}&q=${city}&days=3`
     axios({
         method: 'GET',
         url: url
     }).then( (response) => {
-        console.log('getting weather forecast', response.data);
-        res.send(response.data);
+        console.log('getting weather forecast', response.data.forecast.forecastday);
+        res.send(response.data.forecast.forecastday);
     }).catch( error => {
         console.log("error with getting weather forecast", error);
     })
