@@ -4,6 +4,7 @@ const axios = require('axios');
 
 require('dotenv').config();
 
+// GET route grabs the current-day forecast
 router.get('/current/:id', (req, res) => {
     const city = req.params.id;
     let url = `http://api.weatherapi.com/v1/current.json?key=${process.env.API_KEY}&q=${city}`
@@ -16,8 +17,9 @@ router.get('/current/:id', (req, res) => {
     }).catch( error => {
         console.log("error with getting current weather", error);
     })
-})
+});
 
+// GET route grabs three-day forecast
 router.get('/forecast/:id', (req, res) => {
     const city = req.params.id;
     let url = `http://api.weatherapi.com/v1/forecast.json?key=${process.env.API_KEY}&q=${city}&days=3`
@@ -30,7 +32,6 @@ router.get('/forecast/:id', (req, res) => {
     }).catch( error => {
         console.log("error with getting weather forecast", error);
     })
-})
-
+});
 
 module.exports = router;
