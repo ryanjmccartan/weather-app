@@ -1,4 +1,5 @@
 {
+  "homepage": "http://ryanjmccartan.github.io/weather-app",
   "name": "weather-app",
   "version": "0.1.0",
   "private": true,
@@ -20,6 +21,8 @@
     "react-scripts": "3.4.0"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "client": "react-scripts start",
     "server": "nodemon --watch server server/server.js",
     "start": "react-scripts start",
@@ -41,5 +44,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^2.2.0"
   }
 }
