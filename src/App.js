@@ -6,7 +6,7 @@ class App extends Component {
   render() {
     return(
       <div className="App">
-        <p>Let's check the weather!</p>
+        {/* <p>Let's check the weather!</p> */}
         <Weather/>
       </div>
     )

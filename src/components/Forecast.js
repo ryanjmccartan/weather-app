@@ -1,15 +1,24 @@
 import React, {Component} from 'react'
+import CalculatePrecip from './CalculatePrecip';
 
 class Forecast extends Component {
     render() {
 
-        // const {day:{maxtemp_f}} = this.props.forecast;
-        // console.log(maxtemp_f);
-
         return(
             <>
             {this.props.forecast.map(day => {
-                return <li key={day.date}>{day.maxtemp_f}</li>
+                return <p key={day.date}>
+                    <img src={day.condition.icon}/>
+                    <br/>
+                    Max temp: 
+                    <br/>
+                    {day.maxtemp_f}
+                    <br/>
+                    Min temp:
+                    <br/>
+                    {day.mintemp_f}
+                    {/* <CalculatePrecip precipitation={day.totalprecip_mm}/> */}
+                </p>
             })}
             </>
         )

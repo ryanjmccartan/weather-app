@@ -5,7 +5,7 @@ const axios = require('axios');
 require('dotenv').config();
 
 router.get('/current/:id', (req, res) => {
-    let city = req.params.id;
+    const city = req.params.id;
     let url = `http://api.weatherapi.com/v1/current.json?key=${process.env.API_KEY}&q=${city}`
     axios({
         method: 'GET',
@@ -19,7 +19,7 @@ router.get('/current/:id', (req, res) => {
 })
 
 router.get('/forecast/:id', (req, res) => {
-    let city = req.params.id;
+    const city = req.params.id;
     let url = `http://api.weatherapi.com/v1/forecast.json?key=${process.env.API_KEY}&q=${city}&days=3`
     axios({
         method: 'GET',
