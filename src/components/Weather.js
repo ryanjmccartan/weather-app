@@ -42,7 +42,7 @@ class Weather extends Component {
             });
         }).catch(error => {
             console.log('error getting current weather', error);
-        })
+        });
     }
 
     // getWeatherForecast function receives three-day forecast from API
@@ -73,7 +73,7 @@ class Weather extends Component {
             console.log('in forecast state astro', this.state.forecast.astro_array)
         }).catch(error => {
             console.log('error getting weather forecast', error);
-        })
+        });
       }
     }
 
