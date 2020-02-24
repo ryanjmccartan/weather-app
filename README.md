@@ -12,7 +12,6 @@ This is a weather app that utilizes a weather API and allows a user to enter in 
 * Node.js
 * Express
 
-
 for a full list of dependencies, please see the package.json file.
 
 ## Getting Started
