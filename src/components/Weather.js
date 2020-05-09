@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import Forecast from './Forecast';
+import './Weather.css';
 
 class Weather extends Component {
 
@@ -18,7 +19,6 @@ class Weather extends Component {
         },
         forecast: {
             day_array: [],
-            astro_array: []
         }
     }
 
@@ -29,7 +29,7 @@ class Weather extends Component {
             console.log('getting current weather', response.data);
             this.setState({
                 weather: {
-                    location: response.data.location.name,
+                    location: '',
                     current: {
                         temp_f: response.data.current.temp_f,
                         feelslike_f: response.data.current.feelslike_f,
@@ -40,6 +40,7 @@ class Weather extends Component {
                     }
                 }
             });
+            // console.log('in current weather location', this.state.weather.location)
         }).catch(error => {
             console.log('error getting current weather', error);
         });
@@ -63,14 +64,12 @@ class Weather extends Component {
             response.data.forEach(forecast => {
                 this.setState({
                     forecast: {
-                        day_array: [...this.state.forecast.day_array, forecast.day],
-                        astro_array: [...this.state.forecast.astro_array, forecast.astro]
+                        day_array: [...this.state.forecast.day_array, forecast],
                     }
                 })
             });
             this.getCurrentWeather();
             console.log('in forecast state day', this.state.forecast.day_array)
-            console.log('in forecast state astro', this.state.forecast.astro_array)
         }).catch(error => {
             console.log('error getting weather forecast', error);
         });
@@ -90,30 +89,34 @@ class Weather extends Component {
         // Precip variable is used to calculate the precipitation over three-day forecast
         let precip = 0;
 
-        this.state.forecast.day_array.map(day => {
-            precip += day.totalprecip_in;
+        this.state.forecast.day_array.map(forecast => {
+            precip += forecast.day.totalprecip_in;
             console.log('after adding precip', precip);
             return precip; 
         });
 
         return(
-            <div className="weather-forecast">
-                <input placeholder='enter city name' onChange={(e) => this.handleChange(e)}/>
-                <button onClick={this.getWeatherForecast}>Check weather</button>
+            <div>
+                <div className="location-input">
+                    <input value={this.state.weather.location} placeholder='enter city name' onChange={(e) => this.handleChange(e)}/>
+                    <button onClick={this.getWeatherForecast}>Search</button>
+                </div>
                 {this.state.forecast.day_array.length !== 0 ?
-                <div className="show-weather">
-                    <h3>Today's Weather:</h3>
-                    <img src={this.state.weather.condition_current.condition_icon} alt="weather_icon"/>
-                    <p>Current Temperature:
+                <div className="showing-weather">
+                    <div className="current-weather-container">
+                        <h3>Today's weather:</h3>
+                        <img src={this.state.weather.condition_current.condition_icon} alt="weather icon"/>
+                        <p>Current Temperature:
+                            <br/>
+                            {this.state.weather.current.temp_f}</p>
+                            <br/>
+                            Feels like: {this.state.weather.current.feelslike_f}
                         <br/>
-                        {this.state.weather.current.temp_f}</p>
-                        <br/>
-                        Feels like: {this.state.weather.current.feelslike_f}
-                    <br/>
-                    <h3>3-Day Forecast:</h3>
+                    </div>
+                    {/* <h3>Forecast:</h3>
                     Expected precipitation (in inches):
                     <br/>
-                    {precip}
+                    {precip} */}
                     <Forecast forecast={this.state.forecast.day_array}/>
                     <br/>
                     <br/>
