@@ -19,7 +19,7 @@ router.get('/current/:id', (req, res) => {
     })
 });
 
-// GET route grabs three-day forecast
+// GET route grabs forecast
 router.get('/forecast/:id', (req, res) => {
     const city = req.params.id;
     let url = `http://api.weatherapi.com/v1/forecast.json?key=${process.env.API_KEY}&q=${city}&days=3`
