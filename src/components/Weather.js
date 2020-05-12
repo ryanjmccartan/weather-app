@@ -111,7 +111,6 @@ class Weather extends Component {
                             {this.state.weather.current.temp_f}</p>
                             <br/>
                             Feels like: {this.state.weather.current.feelslike_f}
-                        <br/>
                     </div>
                     {/* <h3>Forecast:</h3>
                     Expected precipitation (in inches):
