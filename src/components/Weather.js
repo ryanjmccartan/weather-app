@@ -1,13 +1,18 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import Forecast from './Forecast';
+import { TextField, Button } from '@material-ui/core';
 import './Weather.css';
 
 class Weather extends Component {
 
     state = {
+        input: '',
         weather: {
-            location: '',
+            location: {
+                name: '',
+                region: ''
+            },
             current: {
                 temp_f: 0,
                 feelslike_f: 0,
@@ -24,12 +29,16 @@ class Weather extends Component {
 
     // getCurrentWeather function receives current-day forecast from API
     getCurrentWeather = (e) => {
-        const city = this.state.weather.location;
+        const city = this.state.input;
         axios.get(`/weather/current/${city}`).then(response => {
             console.log('getting current weather', response.data);
             this.setState({
+                input: '',
                 weather: {
-                    location: '',
+                    location: {
+                        name: response.data.location.name,
+                        region: response.data.location.region
+                    },
                     current: {
                         temp_f: response.data.current.temp_f,
                         feelslike_f: response.data.current.feelslike_f,
@@ -48,11 +57,11 @@ class Weather extends Component {
 
     // getWeatherForecast function receives three-day forecast from API
     getWeatherForecast = () => {
-        if(this.state.weather.location === '') {
+        if(this.state.input === '') {
             alert('Please enter the name of a city');
         }
         else{
-        const city = this.state.weather.location;
+        const city = this.state.input;
         axios.get(`/weather/forecast/${city}`).then(response => {
             console.log('getting weather forecast', response.data);
             this.setState({
@@ -78,10 +87,7 @@ class Weather extends Component {
 
     handleChange = (e) => {
         this.setState({
-            weather: {
-            ...this.state.weather, 
-            location: e.target.value
-            }
+            input: e.target.value 
         })
     }
 
@@ -91,25 +97,31 @@ class Weather extends Component {
 
         this.state.forecast.day_array.map(forecast => {
             precip += forecast.day.totalprecip_in;
-            console.log('after adding precip', precip);
+            // console.log('after adding precip', precip);
             return precip; 
         });
 
         return(
             <div>
                 <div className="location-input">
-                    <input value={this.state.weather.location} placeholder='enter city name' onChange={(e) => this.handleChange(e)}/>
-                    <button onClick={this.getWeatherForecast}>Search</button>
+                    <TextField 
+                    margin="dense"
+                    label="Enter location"
+                    type="text"
+                    value={this.state.input} 
+                    placeholder='city name or zip code' 
+                    onChange={(e) => this.handleChange(e)}
+                    />
+                    <Button id="srch-btn" color="default" variant="contained" onClick={this.getWeatherForecast}>Search</Button>
                 </div>
                 {this.state.forecast.day_array.length !== 0 ?
                 <div className="showing-weather">
                     <div className="current-weather-container">
-                        <h3>Today's weather:</h3>
+                        <h3>{this.state.weather.location.name}, {this.state.weather.location.region}</h3>
                         <img src={this.state.weather.condition_current.condition_icon} alt="weather icon"/>
                         <p>Current Temperature:
                             <br/>
                             {this.state.weather.current.temp_f}</p>
-                            <br/>
                             Feels like: {this.state.weather.current.feelslike_f}
                     </div>
                     {/* <h3>Forecast:</h3>
@@ -125,12 +137,12 @@ class Weather extends Component {
                 <div>
                     <br/>
                     <br/>
-                    Enter a city to check the weather!
+                    <h3>Enter a city to check the weather!</h3>
                     <br/>
                     <br/>
                 </div>
                 }
-                Powered by <a href="https://www.weatherapi.com/" title="Free Weather API">WeatherAPI.com</a>
+                {/* Powered by <a href="https://www.weatherapi.com/" title="Free Weather API">WeatherAPI.com</a> */}
             </div>
         )
     }
