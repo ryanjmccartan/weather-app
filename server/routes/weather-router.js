@@ -7,7 +7,7 @@ require('dotenv').config();
 // GET route grabs the current-day forecast
 router.get('/current/:id', (req, res) => {
     const city = req.params.id;
-    let url = `http://api.weatherapi.com/v1/current.json?key=${process.env.API_KEY}&q=${city}`
+    let url = `http://api.weatherapi.com/v1/current.json?key='d48a71db1f37449483f172634201902'&q=${city}`
     axios({
         method: 'GET',
         url: url
@@ -22,7 +22,7 @@ router.get('/current/:id', (req, res) => {
 // GET route grabs forecast
 router.get('/forecast/:id', (req, res) => {
     const city = req.params.id;
-    let url = `http://api.weatherapi.com/v1/forecast.json?key=${process.env.API_KEY}&q=${city}&days=3`
+    let url = `http://api.weatherapi.com/v1/forecast.json?key='d48a71db1f37449483f172634201902'&q=${city}&days=3`
     axios({
         method: 'GET',
         url: url
