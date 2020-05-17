@@ -1,8 +1,6 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## Weather Where
 
-This is a weather app that utilizes a weather API and allows a user to enter in the name of a city and receive both its current and three-day weather forecast.
+This is a weather app that utilizes a weather API and allows a user to enter in the name of a city and receive current-day weather along with a forecast. Check out a live version [here](https://weather-where3.herokuapp.com/).
 
 ## Built With
 ​
